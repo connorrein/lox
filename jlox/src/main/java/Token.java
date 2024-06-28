@@ -1,8 +1,8 @@
 public class Token {
-    private final Type type;
-    private final String lexeme;
-    private final Object literal;
-    private final int line;
+    public final Type type;
+    public final String lexeme;
+    public final Object literal;
+    public final int line;
 
     public Token(Type type, String lexeme, Object literal, int line) {
         this.type = type;
