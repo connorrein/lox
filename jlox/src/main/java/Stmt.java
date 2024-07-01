@@ -6,9 +6,13 @@ public abstract class Stmt {
 
         R visitExpressionStmt(Stmt.Expression stmt);
 
+        R visitIfStmt(Stmt.If stmt);
+
         R visitPrintStmt(Stmt.Print stmt);
 
         R visitVarStmt(Stmt.Var stmt);
+
+        R visitWhileStmt(Stmt.While stmt);
     }
 
     public static class Block extends Stmt {
@@ -37,6 +41,23 @@ public abstract class Stmt {
         }
     }
 
+    public static class If extends Stmt {
+        public final Expr condition;
+        public final Stmt thenBranch;
+        public final Stmt elseBranch;
+
+        public If(Expr condition, Stmt thenBranch, Stmt elseBranch) {
+            this.condition = condition;
+            this.thenBranch = thenBranch;
+            this.elseBranch = elseBranch;
+        }
+
+        @Override
+        public <R> R accept(Visitor<R> visitor) {
+            return visitor.visitIfStmt(this);
+        }
+    }
+
     public static class Print extends Stmt {
         public final Expr expression;
 
@@ -62,6 +83,21 @@ public abstract class Stmt {
         @Override
         public <R> R accept(Stmt.Visitor<R> visitor) {
             return visitor.visitVarStmt(this);
+        }
+    }
+
+    public static class While extends Stmt {
+        public final Expr condition;
+        public final Stmt body;
+
+        public While(Expr condition, Stmt body) {
+            this.condition = condition;
+            this.body = body;
+        }
+
+        @Override
+        public <R> R accept(Visitor<R> visitor) {
+            return visitor.visitWhileStmt(this);
         }
     }
 

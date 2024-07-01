@@ -8,6 +8,8 @@ public abstract class Expr {
 
         R visitLiteralExpr(Expr.Literal expr);
 
+        R visitLogicalExpr(Expr.Logical expr);
+
         R visitUnaryExpr(Expr.Unary expr);
 
         R visitVariableExpr(Expr.Variable expr);
@@ -68,6 +70,23 @@ public abstract class Expr {
         @Override
         public <R> R accept(Visitor<R> visitor) {
             return visitor.visitLiteralExpr(this);
+        }
+    }
+
+    public static class Logical extends Expr {
+        public final Expr left;
+        public final Token operator;
+        public final Expr right;
+
+        public Logical(Expr left, Token operator, Expr right) {
+            this.left = left;
+            this.operator = operator;
+            this.right = right;
+        }
+
+        @Override
+        public <R> R accept(Visitor<R> visitor) {
+            return visitor.visitLogicalExpr(this);
         }
     }
 
